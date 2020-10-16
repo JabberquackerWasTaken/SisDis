@@ -9,6 +9,7 @@ message Orden {
 	string Destino   = 5;
 	string Prioridad = 6;
 }
+
 message Message {
     string body = 1;
 }
