@@ -103,7 +103,7 @@ func main() {
 			if len(retail) != 0 {
 				fmt.Println("Opcion de Retail seleccionada")
 				ordenEnvio = enviarOrden(retail)
-				response, err := c.SayHello(context.Background(), &ordenEnvio)
+				response, err := c.SayHola(context.Background(), &ordenEnvio)
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
@@ -115,7 +115,7 @@ func main() {
 			if len(retail) != 0 {
 				fmt.Println("Opcion de Pymes seleccionada")
 				ordenEnvio = enviarOrden(pymes)
-				response, err := c.SayHello(context.Background(), &ordenEnvio)
+				response, err := c.SayHola(context.Background(), &ordenEnvio)
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
