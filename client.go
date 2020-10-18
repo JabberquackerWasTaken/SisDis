@@ -1,6 +1,5 @@
 package main
 
-/*
 import (
 	"log"
 
@@ -31,10 +30,4 @@ func main() {
 
 	log.Printf("Response from Server: %s", response.Body)
 
-	response, err := c.MandarOrden(context.Background(), &message)
-	if err != nil {
-		log.Fatalf("Error when calling SayHello: %s", err)
-	}
-
 }
-*/

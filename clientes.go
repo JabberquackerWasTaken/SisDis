@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"context"
 	"encoding/csv"
 	"fmt"
 	"io"
@@ -11,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/JabberquackerWasTaken/SisDis/chat"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
@@ -25,12 +25,13 @@ type Orden struct {
 }
 
 //enviarOrden es una funcion que remueve el primer item de la cola y lo envia a los camiones.
-func enviarOrden(Lista []Orden) Orden {
+func enviarOrden(Lista []Orden) chat.Message {
 	envio := Lista[0]
 	Lista = append(Lista[:0], Lista[1:]...)
-	/*Aca falta enviar envio a camiones por grpc*/
-	//fmt.Println(envio)
-	return envio
+	respuesta := chat.Message{
+		Body: envio.ID + "@" + envio.Producto + "@" + envio.Valor + "@" + envio.Tienda + "@" + envio.Destino + "@" + envio.Prioridad,
+	}
+	return respuesta
 }
 
 func main() {
@@ -82,26 +83,11 @@ func main() {
 			Destino:   line[4],
 			Prioridad: "1",
 		})
-		me := chat.Orden{
-			ID:        line[0],
-			Producto:  line[1],
-			Valor:     line[2],
-			Tienda:    line[3],
-			Destino:   line[4],
-			Prioridad: "1",
-		}
-
-		response, _ := c.MandarOrden(context.Background(), &me)
-		fmt.Println(response)
 	}
-
 	retail = append(retail[:0], retail[1:]...)
-	ord := enviarOrden(retail)
-	if ord.ID == "Quiero que deje te tirar que no lo estoy usando" {
-		println("linea imposible")
+	var ordenEnvio = chat.Message{
+		Body: "iniciando esto",
 	}
-	ord = enviarOrden(pymes)
-
 	var request = bufio.NewReader(os.Stdin)
 	for {
 		fmt.Println("----------------------------")
@@ -115,17 +101,25 @@ func main() {
 		text = strings.ToLower(strings.Trim(text, " \r\n"))
 		if strings.Compare(text, "1") == 0 {
 			if len(retail) != 0 {
-				fmt.Println("1.-Retail")
-				ord = enviarOrden(retail)
-				//response, err := c.MandarOrden(context.Background(), ord)
+				fmt.Println("Opcion de Retail seleccionada")
+				ordenEnvio = enviarOrden(retail)
+				response, err := c.SayHello(context.Background(), &ordenEnvio)
+				if err != nil {
+					log.Fatalf("Error when calling SayHello: %s", err)
+				}
+				fmt.Println(response)
 			} else {
 				fmt.Println("No quedan ordenes de Retail en la lista.")
 			}
 		} else if strings.Compare(text, "2") == 0 {
 			if len(retail) != 0 {
-				fmt.Println("2.- Pymes")
-				ord = enviarOrden(pymes)
-				//response, err := c.MandarOrden(context.Background(), ord)
+				fmt.Println("Opcion de Pymes seleccionada")
+				ordenEnvio = enviarOrden(pymes)
+				response, err := c.SayHello(context.Background(), &ordenEnvio)
+				if err != nil {
+					log.Fatalf("Error when calling SayHello: %s", err)
+				}
+				fmt.Println(response)
 			} else {
 				fmt.Println("No quedan ordenes de Pymes en la lista.")
 			}
