@@ -16,7 +16,6 @@ import (
 func main() {
 	var Lista []string
 	var conec *grpc.ClientConn
-	var Aux string
 	var repeticiones int
 	total := 0.0
 	conec, err := grpc.Dial(":9000", grpc.WithInsecure())
@@ -65,7 +64,7 @@ func main() {
 				if err != nil {
 					log.Fatalf("Error when calling server: %s", err)
 				}
-				Lista = append(Lista, message.Body)
+				Lista = append(Lista, response.Body)
 			}
 			for i := 0; i < repeticiones; i++ {
 				res := strings.SplitN(response.Body, "@", 8)

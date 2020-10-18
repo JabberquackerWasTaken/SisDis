@@ -60,12 +60,12 @@ func (s *Server) SayHola(ctx context.Context, message *Message) (*Message, error
 	} else {
 		romper := strings.SplitN(message.Body, "@", 6)
 		if strings.Compare(romper[3], "1") == 0 {
-			s.Ordenes = append(s.Finanzas, message.Body)
+			s.Finanzas = append(s.Finanzas, message.Body)
 			respuesta = Message{
 				Body: "recibido",
 			}
 		} else if strings.Compare(romper[3], "0") == 0 {
-			s.Ordenes = append(s.Finanzas, message.Body)
+			s.Finanzas = append(s.Finanzas, message.Body)
 			respuesta = Message{
 				Body: "recibido",
 			}

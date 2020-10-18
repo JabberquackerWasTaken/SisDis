@@ -59,7 +59,7 @@ func enviarCamion(camion Camion) Camion {
 	Aux = camion.Orden1
 	if camion.usando2 != 0 {
 		Aux2 = camion.Orden2
-		valor2, _ := strconv.Atoi(Aux2.Valor)
+		valor2, _ = strconv.Atoi(Aux2.Valor)
 		flag = 1
 	}
 	if flag == 1 {
@@ -367,6 +367,7 @@ func main() {
 					if err != nil {
 						log.Fatalf("Error when calling server: %s", err)
 					}
+					fmt.Println(response.Body)
 					CamP.usando2 = 0
 				}
 				message := chat.Message{
@@ -376,6 +377,7 @@ func main() {
 				if err != nil {
 					log.Fatalf("Error when calling server: %s", err)
 				}
+				fmt.Println(response.Body)
 				CamP.usando1 = 0
 			}
 			if CamR1.usando1 == 1 {
@@ -389,6 +391,7 @@ func main() {
 					if err != nil {
 						log.Fatalf("Error when calling server: %s", err)
 					}
+					fmt.Println(response.Body)
 					CamR1.usando2 = 0
 				}
 				message := chat.Message{
@@ -398,6 +401,7 @@ func main() {
 				if err != nil {
 					log.Fatalf("Error when calling server: %s", err)
 				}
+				fmt.Println(response.Body)
 				CamR1.usando1 = 0
 				//
 			}
@@ -412,6 +416,7 @@ func main() {
 					if err != nil {
 						log.Fatalf("Error when calling server: %s", err)
 					}
+					fmt.Println(response.Body)
 					CamR2.usando2 = 0
 				}
 				message := chat.Message{
@@ -421,6 +426,7 @@ func main() {
 				if err != nil {
 					log.Fatalf("Error when calling server: %s", err)
 				}
+				fmt.Println(response.Body)
 				CamR2.usando1 = 0
 				//
 			}
