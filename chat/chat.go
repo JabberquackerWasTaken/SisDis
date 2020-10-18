@@ -62,12 +62,12 @@ func (s *Server) SayHola(ctx context.Context, message *Message) (*Message, error
 		if strings.Compare(romper[3], "1") == 0 {
 			s.Finanzas = append(s.Finanzas, message.Body)
 			respuesta = Message{
-				Body: "recibido",
+				Body: "Reporte Enviado",
 			}
 		} else if strings.Compare(romper[3], "0") == 0 {
 			s.Finanzas = append(s.Finanzas, message.Body)
 			respuesta = Message{
-				Body: "recibido",
+				Body: "Reporte Enviado",
 			}
 		} else {
 			s.Ordenes = append(s.Ordenes, message.Body)

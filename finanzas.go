@@ -47,7 +47,7 @@ func main() {
 				log.Fatalf("Error when calling server: %s", err)
 			}
 			fmt.Println(response.Body)
-		} else if strings.Compare(text, "1") == 0 {
+		} else if strings.Compare(text, "2") == 0 {
 			message := chat.Message{
 				Body: "Largo",
 			}
@@ -67,7 +67,8 @@ func main() {
 				Lista = append(Lista, response.Body)
 			}
 			for i := 0; i < repeticiones; i++ {
-				res := strings.SplitN(response.Body, "@", 8)
+				res := strings.SplitN(Lista[0], "@", 8)
+				fmt.Println(res)
 				intentos, _ := strconv.Atoi(res[5])
 				prioridad, _ := strconv.Atoi(res[3])
 				valor, _ := strconv.Atoi(res[6])
@@ -87,8 +88,9 @@ func main() {
 				} else {
 					total = total + fvalor*fllego - fintentos
 				}
+				Lista = append(Lista[:0], Lista[1:]...)
 			}
-			fmt.Println("Se tiene un total de: %v", total)
+			fmt.Println("Se tiene un total de: $", total, " hasta ahora.")
 		} else {
 			break
 		}
