@@ -22,8 +22,8 @@ func (s *Server) MandarOrden(ctx context.Context, message *Orden) (*Message, err
 	return &Message{Body: "Orden enviada"}, nil
 }
 
-//SayHello envia mensajes entre servidor-cliente
-func (s *Server) SayHello(ctx context.Context, message *Message) (*Message, error) {
+//SayHola envia mensajes entre servidor-cliente
+func (s *Server) SayHola(ctx context.Context, message *Message) (*Message, error) {
 	log.Printf("Received message body from client: %s", message.Body)
 	respuesta := Message{
 		Body: "iniciando",

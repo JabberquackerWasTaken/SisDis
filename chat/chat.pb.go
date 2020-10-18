@@ -173,14 +173,14 @@ var file_chat_proto_rawDesc = []byte{
 	0x12, 0x1c, 0x0a, 0x09, 0x50, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x64, 0x61, 0x64, 0x18, 0x06, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x09, 0x50, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x64, 0x61, 0x64, 0x22, 0x1d,
 	0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x62, 0x6f, 0x64,
-	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x62, 0x6f, 0x64, 0x79, 0x32, 0x66, 0x0a,
-	0x0b, 0x43, 0x68, 0x61, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x2a, 0x0a, 0x08,
-	0x53, 0x61, 0x79, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x12, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e,
-	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x00, 0x12, 0x2b, 0x0a, 0x0b, 0x4d, 0x61, 0x6e, 0x64,
-	0x61, 0x72, 0x4f, 0x72, 0x64, 0x65, 0x6e, 0x12, 0x0b, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4f,
-	0x72, 0x64, 0x65, 0x6e, 0x1a, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x62, 0x6f, 0x64, 0x79, 0x32, 0x65, 0x0a,
+	0x0b, 0x43, 0x68, 0x61, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x29, 0x0a, 0x07,
+	0x53, 0x61, 0x79, 0x48, 0x6f, 0x6c, 0x61, 0x12, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x00, 0x12, 0x2b, 0x0a, 0x0b, 0x4d, 0x61, 0x6e, 0x64, 0x61,
+	0x72, 0x4f, 0x72, 0x64, 0x65, 0x6e, 0x12, 0x0b, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4f, 0x72,
+	0x64, 0x65, 0x6e, 0x1a, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -201,9 +201,9 @@ var file_chat_proto_goTypes = []interface{}{
 	(*Message)(nil), // 1: chat.Message
 }
 var file_chat_proto_depIdxs = []int32{
-	1, // 0: chat.ChatService.SayHello:input_type -> chat.Message
+	1, // 0: chat.ChatService.SayHola:input_type -> chat.Message
 	0, // 1: chat.ChatService.MandarOrden:input_type -> chat.Orden
-	1, // 2: chat.ChatService.SayHello:output_type -> chat.Message
+	1, // 2: chat.ChatService.SayHola:output_type -> chat.Message
 	1, // 3: chat.ChatService.MandarOrden:output_type -> chat.Message
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
@@ -275,7 +275,7 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ChatServiceClient interface {
-	SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	SayHola(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
 	MandarOrden(ctx context.Context, in *Orden, opts ...grpc.CallOption) (*Message, error)
 }
 
@@ -287,9 +287,9 @@ func NewChatServiceClient(cc grpc.ClientConnInterface) ChatServiceClient {
 	return &chatServiceClient{cc}
 }
 
-func (c *chatServiceClient) SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
+func (c *chatServiceClient) SayHola(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
 	out := new(Message)
-	err := c.cc.Invoke(ctx, "/chat.ChatService/SayHello", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/chat.ChatService/SayHola", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -307,7 +307,7 @@ func (c *chatServiceClient) MandarOrden(ctx context.Context, in *Orden, opts ...
 
 // ChatServiceServer is the server API for ChatService service.
 type ChatServiceServer interface {
-	SayHello(context.Context, *Message) (*Message, error)
+	SayHola(context.Context, *Message) (*Message, error)
 	MandarOrden(context.Context, *Orden) (*Message, error)
 }
 
@@ -315,8 +315,8 @@ type ChatServiceServer interface {
 type UnimplementedChatServiceServer struct {
 }
 
-func (*UnimplementedChatServiceServer) SayHello(context.Context, *Message) (*Message, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+func (*UnimplementedChatServiceServer) SayHola(context.Context, *Message) (*Message, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SayHola not implemented")
 }
 func (*UnimplementedChatServiceServer) MandarOrden(context.Context, *Orden) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MandarOrden not implemented")
@@ -326,20 +326,20 @@ func RegisterChatServiceServer(s *grpc.Server, srv ChatServiceServer) {
 	s.RegisterService(&_ChatService_serviceDesc, srv)
 }
 
-func _ChatService_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ChatService_SayHola_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Message)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChatServiceServer).SayHello(ctx, in)
+		return srv.(ChatServiceServer).SayHola(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/chat.ChatService/SayHello",
+		FullMethod: "/chat.ChatService/SayHola",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatServiceServer).SayHello(ctx, req.(*Message))
+		return srv.(ChatServiceServer).SayHola(ctx, req.(*Message))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -367,8 +367,8 @@ var _ChatService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*ChatServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SayHello",
-			Handler:    _ChatService_SayHello_Handler,
+			MethodName: "SayHola",
+			Handler:    _ChatService_SayHola_Handler,
 		},
 		{
 			MethodName: "MandarOrden",

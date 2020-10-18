@@ -52,7 +52,7 @@ func main() {
 		message := chat.Message{
 			Body: "Hay entregas?",
 		}
-		response, err := c.SayHello(context.Background(), &message)
+		response, err := c.SayHola(context.Background(), &message)
 		if err != nil {
 			log.Fatalf("Error when calling server: %s", err)
 		}
