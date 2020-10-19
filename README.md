@@ -12,9 +12,13 @@ Integrantes:
   
   ♦Camiones solo tiene que ser ejecutado una vez, el programa crea los 3 objetos/structs camiones
   
+  -----------------------------------------------------------
   logistica = logica.go y la carpeta chat
+  
   clientes = clientes.go y carpeta chat
+  
   camiones = camiones.go y la carpeta chat
+  
   finanzas = finanzas.go y la carpeta chat
   
   Makefile: Falta agregar esto max
