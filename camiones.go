@@ -23,7 +23,7 @@ type Orden struct {
 	Prioridad string
 }
 
-//Camion es el struct para los camiones
+//Camion es el struct para los camiones donde se tiene un int que no dice si la orden se esta usando o no y un string reporte donde se guardan los reportes de las entregas
 type Camion struct {
 	Orden1   Orden
 	Orden2   Orden
@@ -33,19 +33,19 @@ type Camion struct {
 	Reporte2 string
 }
 
-//obtenerOrden toma la primera orden de la lista
+//obtenerOrden toma la primera orden de la lista y lo devuelve
 func obtenerOrden(Lista []Orden) Orden {
 	envio := Lista[0]
 	return envio
 }
 
-//removerOrden remueve la primera orden de la lista
+//removerOrden remueve la primera orden de la lista y devuelve la lista
 func removerOrden(Lista []Orden) []Orden {
 	Lista = append(Lista[:0], Lista[1:]...)
 	return Lista
 }
 
-//enviarCamion Envia las entregas
+//enviarCamion recibe un camion, trabaja con las ordenes que obtiene, enviandolas y escribe un reporte del envio ya haya sido recibido o no.
 func enviarCamion(camion Camion) Camion {
 	var Aux Orden
 	var Aux2 Orden
@@ -53,10 +53,11 @@ func enviarCamion(camion Camion) Camion {
 	intentos2 := 0
 	Listo1 := 0
 	Listo2 := 0
+	Aux = camion.Orden1
 	valor1, _ := strconv.Atoi(Aux.Valor)
 	valor2 := 0
 	flag := 0
-	Aux = camion.Orden1
+
 	if camion.usando2 != 0 {
 		Aux2 = camion.Orden2
 		valor2, _ = strconv.Atoi(Aux2.Valor)
@@ -226,7 +227,9 @@ func enviarCamion(camion Camion) Camion {
 
 func main() {
 	var Aux Orden
-	var Lista []Orden
+	var Listapymes []Orden
+	var Listaretail []Orden
+	var Listaprio []Orden
 	var conec *grpc.ClientConn
 	conec, err := grpc.Dial(":9000", grpc.WithInsecure())
 
@@ -278,79 +281,97 @@ func main() {
 		}
 		if strings.Compare(Aux.Prioridad, "Nada") == 0 {
 			//No hay que hacer nada aca
+		} else if strings.Compare(Aux.Prioridad, "1") == 0 {
+			fmt.Println("Orden recibida:")
+			fmt.Println(Aux)
+			if strings.Compare(Aux.Tienda, "pyme") == 0 {
+				Listaprio = append(Listaprio, Aux)
+			} else {
+				Listaretail = append(Listaretail, Aux)
+			}
 		} else {
-			Lista = append(Lista, Aux)
+			fmt.Println("Orden recibida:")
+			fmt.Println(Aux)
+			Listapymes = append(Listapymes, Aux)
 		}
-		if len(Lista) == 0 {
+
+		if len(Listapymes)+len(Listaprio)+len(Listaretail) == 0 {
 			fmt.Println("No hay entregas aun")
 		} else {
-			//Hay Entregas
-			Aux = obtenerOrden(Lista)
-			if strings.Compare(Aux.Prioridad, "1") == 0 {
-				if strings.Compare(Aux.Tienda, "pyme") == 0 {
-					//Reviso el camion pymes
-					if CamP.usando1 == 0 {
-						CamP.Orden1 = Aux
-						Lista = removerOrden(Lista)
-						CamP.usando1 = 1
-					} else if CamP.usando2 == 0 {
-						CamP.Orden2 = Aux
-						Lista = removerOrden(Lista)
-						CamP.usando2 = 1
-					} else if CamR1.usando1 == 0 {
-						//Reviso CamionRetail 1
-						CamR1.Orden1 = Aux
-						Lista = removerOrden(Lista)
-						CamR1.usando1 = 1
-					} else if CamR1.usando2 == 0 {
-						CamR1.Orden2 = Aux
-						Lista = removerOrden(Lista)
-						CamR1.usando2 = 1
-					} else if CamR2.usando1 == 0 {
-						//Reviso CamionRetail2
-						CamR2.Orden1 = Aux
-						Lista = removerOrden(Lista)
-						CamR2.usando1 = 1
-					} else if CamR2.usando2 == 0 {
-						CamR2.Orden2 = Aux
-						Lista = removerOrden(Lista)
-						CamR2.usando2 = 1
-					} else {
-						fmt.Println("Camiones ocupados")
-					}
-
+			if len(Listaretail) != 0 {
+				Aux = obtenerOrden(Listaretail)
+				if CamR1.usando1 == 0 {
+					//Reviso CamionRetail 1
+					CamR1.Orden1 = Aux
+					Listaretail = removerOrden(Listaretail)
+					CamR1.usando1 = 1
+				} else if CamR1.usando2 == 0 {
+					CamR1.Orden2 = Aux
+					Listaretail = removerOrden(Listaretail)
+					CamR1.usando2 = 1
+				} else if CamR2.usando1 == 0 {
+					//Reviso CamionRetail2
+					CamR2.Orden1 = Aux
+					Listaretail = removerOrden(Listaretail)
+					CamR2.usando1 = 1
+				} else if CamR2.usando2 == 0 {
+					CamR2.Orden2 = Aux
+					Listaretail = removerOrden(Listaretail)
+					CamR2.usando2 = 1
 				} else {
+					fmt.Println("Camiones de retails ocupados")
+				}
+			}
+			if len(Listaprio) != 0 {
+				Aux = obtenerOrden(Listaprio)
+				if len(Listaretail) == 0 {
 					if CamR1.usando1 == 0 {
 						//Reviso CamionRetail 1
 						CamR1.Orden1 = Aux
-						Lista = removerOrden(Lista)
+						Listaprio = removerOrden(Listaprio)
 						CamR1.usando1 = 1
 					} else if CamR1.usando2 == 0 {
 						CamR1.Orden2 = Aux
-						Lista = removerOrden(Lista)
+						Listaprio = removerOrden(Listaprio)
 						CamR1.usando2 = 1
 					} else if CamR2.usando1 == 0 {
 						//Reviso CamionRetail2
 						CamR2.Orden1 = Aux
-						Lista = removerOrden(Lista)
+						Listaprio = removerOrden(Listaprio)
 						CamR2.usando1 = 1
 					} else if CamR2.usando2 == 0 {
 						CamR2.Orden2 = Aux
-						Lista = removerOrden(Lista)
+						Listaprio = removerOrden(Listaprio)
 						CamR2.usando2 = 1
+					}
+				} else {
+					if CamP.usando1 == 0 {
+						CamP.Orden1 = Aux
+						Listaprio = removerOrden(Listaprio)
+						CamP.usando1 = 1
+					} else if CamP.usando2 == 0 {
+						CamP.Orden2 = Aux
+						Listaprio = removerOrden(Listaprio)
+						CamP.usando2 = 1
+					}
+				}
+			}
+			if len(Listapymes) != 0 {
+				if len(Listaprio) != 0 {
+					fmt.Println("Orden en pyme con prioridad, Envio retrasado hasta que Cola prioridad termine")
+				} else {
+					Aux = obtenerOrden(Listapymes)
+					if CamP.usando1 == 0 {
+						CamP.Orden1 = Aux
+						Listapymes = removerOrden(Listapymes)
+						CamP.usando1 = 1
+					} else if CamP.usando2 == 0 {
+						CamP.Orden2 = Aux
+						Listapymes = removerOrden(Listapymes)
+						CamP.usando2 = 1
 					}
 				}
 
-			} else {
-				if CamP.usando1 == 0 {
-					CamP.Orden1 = Aux
-					Lista = removerOrden(Lista)
-					CamP.usando1 = 1
-				} else if CamP.usando2 == 0 {
-					CamP.Orden2 = Aux
-					Lista = removerOrden(Lista)
-					CamP.usando2 = 1
-				}
 			}
 		}
 		if k != 5 {

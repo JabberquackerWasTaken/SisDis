@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/JabberquackerWasTaken/SisDis/chat"
 	"golang.org/x/net/context"
@@ -39,6 +40,7 @@ func main() {
 		text = strings.ToLower(strings.Trim(text, " \r\n"))
 
 		if strings.Compare(text, "1") == 0 {
+			//honestamente esta opcion es bastante inutil y solo sirve por si la persona no quiere perder el tiempo calculando nuevas ordenes que o existen
 			message := chat.Message{
 				Body: "Largo",
 			}
@@ -48,6 +50,7 @@ func main() {
 			}
 			fmt.Println(response.Body)
 		} else if strings.Compare(text, "2") == 0 {
+			//Le pido al server el largo de la lista de Reportes
 			message := chat.Message{
 				Body: "Largo",
 			}
@@ -56,6 +59,7 @@ func main() {
 				log.Fatalf("Error when calling server: %s", err)
 			}
 			repeticiones, _ = strconv.Atoi(response.Body)
+			//Pido los reportes uno por uno y los guardo en la lista de reportes
 			for i := 0; i < repeticiones; i++ {
 				message := chat.Message{
 					Body: "Finanzas",
@@ -66,8 +70,11 @@ func main() {
 				}
 				Lista = append(Lista, response.Body)
 			}
+			fmt.Println("Los nuevos Reportes obtenidos son:")
+			//Separo los string y calculo cuanto gane por cada opcion
 			for i := 0; i < repeticiones; i++ {
 				res := strings.SplitN(Lista[0], "@", 8)
+
 				fmt.Println(res)
 				intentos, _ := strconv.Atoi(res[5])
 				prioridad, _ := strconv.Atoi(res[3])
@@ -81,18 +88,28 @@ func main() {
 				impuesto = 0.3
 				if prioridad == 1 {
 					if strings.Compare(res[2], "pyme") == 0 {
+						//Esta opcion nos dice que es la lista con prioridad por lo que multiplicamos el valor por si llego o no (1 si llego y 0 si no) y sumamos todo
 						total = total + fvalor*fllego + fvalor*impuesto - fintentos
 					} else {
+						//Opcion de retail, da igual si llego, tenemos el dinero menos el nuemero de intentos
 						total = total + fvalor - fintentos
 					}
 				} else {
+					//Opcion pyme, valor*llego = Valor(0 o 1)
 					total = total + fvalor*fllego - fintentos
 				}
 				Lista = append(Lista[:0], Lista[1:]...)
 			}
-			fmt.Println("Se tiene un total de: $", total, " hasta ahora.")
-		} else {
+			fmt.Println("----------------------------------")
+			fmt.Println("Se tiene un total de: $", total, " hasta ahora.(Espere 3 segundo)")
+			// 3 segundos para que el mensaje no se pierda muy rapido
+			time.Sleep(time.Second)
+			time.Sleep(time.Second)
+			time.Sleep(time.Second)
+		} else if strings.Compare(text, "3") == 0 {
 			break
+		} else {
+			fmt.Println("Opcion introducida no existe")
 		}
 	}
 }

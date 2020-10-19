@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-// Orden struct recibe las ordenes
+// Orden struct que recibe las ordenes y las separa en distintos valores
 type Orden struct {
 	ID        string `json:"id"`
 	Producto  string `json:"producto"`
@@ -24,7 +24,7 @@ type Orden struct {
 	Prioridad string `json:"prioridad"`
 }
 
-//enviarOrden es una funcion que remueve el primer item de la cola y lo envia a los camiones.
+//enviarOrden es una funcion que recibe una lista de Ordenes y le remueve el primer valor para luego transformarlo en un chat.Message para que pueda ser enviado a los camiones.
 func enviarOrden(Lista []Orden) chat.Message {
 	envio := Lista[0]
 	Lista = append(Lista[:0], Lista[1:]...)
@@ -49,6 +49,7 @@ func main() {
 	csvFile2, _ := os.Open("retail.csv")
 	reader := csv.NewReader(bufio.NewReader(csvFile))
 	var pymes []Orden
+	//Obtengo todas las ordenes de pymes
 	for {
 		line, error := reader.Read()
 		if error == io.EOF {
@@ -68,6 +69,7 @@ func main() {
 	pymes = append(pymes[:0], pymes[1:]...)
 	reader2 := csv.NewReader(bufio.NewReader(csvFile2))
 	var retail []Orden
+	//Obtengo todas las ordenes de retail
 	for {
 		line, error := reader2.Read()
 		if error == io.EOF {
@@ -107,7 +109,7 @@ func main() {
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				fmt.Println(response)
+				fmt.Println(response.Body)
 			} else {
 				fmt.Println("No quedan ordenes de Retail en la lista.")
 			}
@@ -119,7 +121,7 @@ func main() {
 				if err != nil {
 					log.Fatalf("Error when calling SayHello: %s", err)
 				}
-				fmt.Println(response)
+				fmt.Println(response.Body)
 			} else {
 				fmt.Println("No quedan ordenes de Pymes en la lista.")
 			}
