@@ -8,6 +8,7 @@ Integrantes:
   
   Disclaimer: 
   ♦El archivo csv de pymes y retail tiene que estar con clientes.go, esta implementado para que lea los archivo sy cree una lista temporal, asi no eliminar las ordenes del archivo csv.
+  
   ♦Camiones solo tiene que ser ejecutado una vez, el programa crea los 3 objetos/structs camiones
   
   logistica = logica.go y la carpeta chat
